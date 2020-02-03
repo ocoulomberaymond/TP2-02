@@ -23,7 +23,7 @@ Librairie::Librairie(const Librairie& copie)
 {
     for (int i = 0; i < copie.films_.size(); i++)
     {
-        operator+=(*copie.films_[i]);
+        operator+=(copie.films_[i].get());       // .get()
     }
 }
 //! Destructeur de la classe Librairie
@@ -52,11 +52,12 @@ Librairie& Librairie::operator+=(Film *film)
 
 //! Méthode qui retire un film de la liste
 //! \param nomFilm Le nom du film à retirer.
-void Librairie::operator-=(const std::string& nom)
+Librairie& Librairie::operator-=(const std::string& nom)
 {
     int index = trouverIndexFilm(nom);
     films_[index] = std::make_unique<Film>(films_[films_.size() - 1]);
     films_.pop_back();
+    return *this;
 }
 //! Méthode qui retire un film de la liste
 //! \param nomFilm Le nom du film à retirer
@@ -76,14 +77,14 @@ void Librairie::operator-=(const std::string& nom)
 //! Méthode qui retourne un film comportant le même nom que celui envoyé en paramètre
 //! \param nomFilm Le nom du film à chercher
 //! \return        Un pointeur vers le film. Nullptr si le film n'existe pas
-std::unique_ptr<Film> Librairie::chercherFilm(const std::string& nomFilm)
+Film* Librairie::chercherFilm(const std::string& nomFilm)
 {
     int indexFilm = trouverIndexFilm(nomFilm);
     if (indexFilm == FILM_INEXSISTANT)
     {
         return nullptr;
     }
-    return std::make_unique<Film>(films_[indexFilm]);
+    return std::make_unique<Film>(films_[indexFilm]).release();
 }
 
 //! Méthode qui charge les films à partir d'un fichier.
@@ -178,7 +179,7 @@ bool Librairie::lireLigneRestrictions(const std::string& ligne)
     // il faut faire stream >> std::quoted(variable)
     if (stream >> std::quoted(nomFilm))
     {
-        std::unique_ptr<Film> film = chercherFilm(nomFilm);
+        Film* film = chercherFilm(nomFilm);
         if (film == nullptr)
         {
             // Film n'existe pas
@@ -229,7 +230,7 @@ bool Librairie::lireLigneFilm(const std::string& ligne, GestionnaireAuteurs& ges
                               to_enum<Pays>(paysValeurEnum),
                               estRestreintParAge,
                               auteur);
-        operator+=(*film);
+        operator+=(film);
         return true;
     }
     return false;

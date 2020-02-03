@@ -17,7 +17,7 @@ public:
 
    // void ajouterFilm(Film* film);
    // void retirerFilm(const std::string& nomFilm);
-    std::unique_ptr<Film> chercherFilm(const std::string& nomFilm);
+    Film* chercherFilm(const std::string& nomFilm);
     bool chargerFilmsDepuisFichier(const std::string& nomFichier,
                                    GestionnaireAuteurs& gestionnaireAuteurs);
     bool chargerRestrictionsDepuisFichiers(const std::string& nomFichier);
@@ -28,7 +28,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& stream,const Librairie& librairie);
     Librairie& operator+=(Film* film);
-    void operator-=(const std::string& nomFilm);
+    Librairie& operator-=(const std::string& nomFilm);
 
 private:
     void supprimerFilms();
