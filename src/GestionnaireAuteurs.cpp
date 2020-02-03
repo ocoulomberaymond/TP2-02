@@ -1,7 +1,7 @@
 #include "GestionnaireAuteurs.h"
 #include <fstream>
 #include <iomanip>
-#include <iostream>
+//#include <iostream>
 #include <sstream>
 
 //! Constructeur de la classe GestionnaireAuteurs
@@ -14,25 +14,25 @@ GestionnaireAuteurs::GestionnaireAuteurs()
 //! Méthode qui ajoute un auteur à la liste des auteurs
 //! \param auteur L'auteur à ajouter
 //! \return       Un bool représentant si l'opération a fonctionnné
-bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur)
-{
-    if (nbAuteurs_ >= NB_AUTEURS_MAX)
-    {
-        return false;
-    }
-
-    auteurs_[nbAuteurs_++] = auteur;
-    return true;
-}
+//bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur)
+//{
+//    if (nbAuteurs_ >= NB_AUTEURS_MAX)
+//    {
+//        return false;
+//    }
+//
+//    auteurs_[nbAuteurs_++] = auteur;
+//    return true;
+//}
 
 //! Méhode qui cherche un auteur par son nom complet
 //! \param nomAuteur Le nom de l'auteur à trouver
 //! \return          Un pointeur vers l'auteur. Le pointeur est nullptr si l'auteur n'existe pas.
 Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur)
 {
-    for (std::size_t i = 0; i < nbAuteurs_; i++)
+    for (std::size_t i = 0; i < auteurs_.size(); i++)
     {
-        if (auteurs_[i].getNom() == nomAuteur)
+        if (auteurs_[i] == nomAuteur)
         {
             return &auteurs_[i];
         }
@@ -49,7 +49,7 @@ bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
     std::ifstream fichier(nomFichier);
     if (fichier)
     {
-        nbAuteurs_ = 0;
+        auteurs_.clear();
         std::string ligne;
         while (std::getline(fichier, ligne))
         {
@@ -65,22 +65,57 @@ bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
     return false;
 }
 
-//! Méthode qui affiche la liste des auteurs
-//! \param stream Le stream dans lequel afficher
-void GestionnaireAuteurs::afficher(std::ostream& stream) const
+////! Méthode qui affiche la liste des auteurs
+////! \param stream Le stream dans lequel afficher
+//void GestionnaireAuteurs::afficher(std::ostream& stream) const
+//{
+//    for (std::size_t i = 0; i < nbAuteurs_; i++)
+//    {
+//        auteurs_[i].afficher(stream);
+//        stream << '\n';
+//    }
+//}
+
+std::ostream& operator<<(std::ostream& os, const GestionnaireAuteurs& gestionnaire)
 {
-    for (std::size_t i = 0; i < nbAuteurs_; i++)
+    for (unsigned i = 0; i < gestionnaire.auteurs_.size(); i++)
     {
-        auteurs_[i].afficher(stream);
-        stream << '\n';
+        os << gestionnaire.auteurs_[i];
     }
+    return os;
+
 }
 
+//GestionnaireAuteurs &GestionnaireAuteurs:: operator += (const Auteur& auteur) 
+//{
+//    if (auteurs_.size() < NB_AUTEURS_MAX)
+//    {
+//        auteurs_.push_back(auteur);
+//        return true;
+//    }
+//       
+//
+//   
+//
+//}
+
+bool GestionnaireAuteurs::operator+=(const Auteur& auteur)
+{
+    if (auteurs_.size() < NB_AUTEURS_MAX)
+    {
+        auteurs_.push_back(auteur);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
 //! Méthode qui retourne le nombre d'auteurs
 //! \return Le nombre d'auteurs
 std::size_t GestionnaireAuteurs::getNbAuteurs() const
 {
-    return nbAuteurs_;
+    return auteurs_.size();
 }
 
 //! Méthode qui ajoute un auteur avec un string
@@ -96,8 +131,7 @@ bool GestionnaireAuteurs::lireLigneAuteur(const std::string& ligne)
 
     if (stream >> std::quoted(nomAuteur) >> age)
     {
-        bool succes = ajouterAuteur(Auteur(nomAuteur, age));
-        return succes;
+        return operator+=(Auteur(nomAuteur, age));
     }
     return false;
 }
