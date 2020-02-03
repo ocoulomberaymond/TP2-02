@@ -35,49 +35,49 @@ const std::vector<std::unique_ptr<Film>>& Librairie::getFilms() const
 //! Méthode qui ajoute un film à la liste des films
 //! \param film Le film alloué dynamiquement à ajouter à la liste. La classe devient propriétaire du
 //!             film.
-void Librairie::ajouterFilm(Film* film)
-{
-    static constexpr unsigned int AUGMENTATION_CAPACITE_FILMS = 2;
-
-    if (film == nullptr)
-    {
-        return;
-    }
-
-    // Verifier si assez de mémoire est allouée
-    if (nbFilms_ >= capaciteFilms_)
-    {
-        // Créer nouveau tableau
-        Film** nouvelleListe = new Film*[capaciteFilms_ * AUGMENTATION_CAPACITE_FILMS];
-
-        // Copier chaque élement vers le nouveau tableau
-        for (std::size_t i = 0; i < nbFilms_; i++)
-        {
-            nouvelleListe[i] = films_[i];
-        }
-
-        delete[] films_;
-        films_ = nouvelleListe; // Pointer vers la nouvelle adresse mémoire
-        capaciteFilms_ *= AUGMENTATION_CAPACITE_FILMS; // Mettre à jour la capacité
-    }
-
-    films_[nbFilms_++] = film;
-}
+//void Librairie::ajouterFilm(Film* film)
+//{
+//    static constexpr unsigned int AUGMENTATION_CAPACITE_FILMS = 2;
+//
+//    if (film == nullptr)
+//    {
+//        return;
+//    }
+//
+//    // Verifier si assez de mémoire est allouée
+//    if (nbFilms_ >= capaciteFilms_)
+//    {
+//        // Créer nouveau tableau
+//        Film** nouvelleListe = new Film*[capaciteFilms_ * AUGMENTATION_CAPACITE_FILMS];
+//
+//        // Copier chaque élement vers le nouveau tableau
+//        for (std::size_t i = 0; i < nbFilms_; i++)
+//        {
+//            nouvelleListe[i] = films_[i];
+//        }
+//
+//        delete[] films_;
+//        films_ = nouvelleListe; // Pointer vers la nouvelle adresse mémoire
+//        capaciteFilms_ *= AUGMENTATION_CAPACITE_FILMS; // Mettre à jour la capacité
+//    }
+//
+//    films_[nbFilms_++] = film;
+//}
 
 //! Méthode qui retire un film de la liste
 //! \param nomFilm Le nom du film à retirer
-void Librairie::retirerFilm(const std::string& nomFilm)
-{
-    int indexFilm = trouverIndexFilm(nomFilm);
-    if (indexFilm == FILM_INEXSISTANT)
-    {
-        return;
-    }
-
-    delete films_[indexFilm];
-    films_[indexFilm] = films_[nbFilms_ - 1];
-    nbFilms_--;
-}
+//void Librairie::retirerFilm(const std::string& nomFilm)
+//{
+//    int indexFilm = trouverIndexFilm(nomFilm);
+//    if (indexFilm == FILM_INEXSISTANT)
+//    {
+//        return;
+//    }
+//
+//    delete films_[indexFilm];
+//    films_[indexFilm] = films_[nbFilms_ - 1];
+//    nbFilms_--;
+//}
 
 //! Méthode qui retourne un film comportant le même nom que celui envoyé en paramètre
 //! \param nomFilm Le nom du film à chercher
@@ -150,15 +150,22 @@ bool Librairie::chargerRestrictionsDepuisFichiers(const std::string& nomFichier)
 
 //! Méthode qui affiche la liste des films.
 //! \param stream Le stream dans lequel afficher
-void Librairie::afficher(std::ostream& stream) const
+//void Librairie::afficher(std::ostream& stream) const
+//{
+//    for (std::size_t i = 0; i < nbFilms_; i++)
+//    {
+//        films_[i]->afficher(stream);
+//        stream << '\n';
+//    }
+//}
+std::ostream& operator<<(std::ostream& os, const Librairie& librairie)
 {
-    for (std::size_t i = 0; i < nbFilms_; i++)
+    for (unsigned i = 0; i < librairie.films_.size(); i++)
     {
-        films_[i]->afficher(stream);
-        stream << '\n';
+        os << librairie.films_[i];
     }
+    return os;
 }
-
 //! Méthode qui retourne le nombre de films
 //! \return Le nombre de films
 std::size_t Librairie::getNbFilms() const
