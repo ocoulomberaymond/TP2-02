@@ -11,19 +11,7 @@ GestionnaireAuteurs::GestionnaireAuteurs()
 {
 }
 
-//! Méthode qui ajoute un auteur à la liste des auteurs
-//! \param auteur L'auteur à ajouter
-//! \return       Un bool représentant si l'opération a fonctionnné
-//bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur)
-//{
-//    if (nbAuteurs_ >= NB_AUTEURS_MAX)
-//    {
-//        return false;
-//    }
-//
-//    auteurs_[nbAuteurs_++] = auteur;
-//    return true;
-//}
+
 
 //! Méhode qui cherche un auteur par son nom complet
 //! \param nomAuteur Le nom de l'auteur à trouver
@@ -80,24 +68,13 @@ std::ostream& operator<<(std::ostream& os, const GestionnaireAuteurs& gestionnai
 {
     for (unsigned i = 0; i < gestionnaire.auteurs_.size(); i++)
     {
-        os << gestionnaire.auteurs_[i];
+        os << gestionnaire.auteurs_[i] << "\n";
     }
     return os;
 
 }
 
-//GestionnaireAuteurs &GestionnaireAuteurs:: operator += (const Auteur& auteur) 
-//{
-//    if (auteurs_.size() < NB_AUTEURS_MAX)
-//    {
-//        auteurs_.push_back(auteur);
-//        return true;
-//    }
-//       
-//
-//   
-//
-//}
+
 
 bool GestionnaireAuteurs::operator+=(const Auteur& auteur)
 {

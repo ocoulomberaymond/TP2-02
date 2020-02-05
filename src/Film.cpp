@@ -1,9 +1,9 @@
 #include "Film.h"
-#include <iostream>
+//#include <iostream>
 #include "Pays.h"
 #include "typesafe_enum.h"
 
-using namespace std;
+//using namespace std;
 
 namespace
 {
@@ -61,6 +61,7 @@ Film::Film(const std::string& nom, unsigned int anneeDeSortie, Genre genre, Pays
     , estRestreintParAge_(estRestreintParAge)
     , auteur_(auteur)
 {
+    auteur_->setNbFilms(auteur_->getNbFilms()+1);
 }
 
 Film::~Film()
@@ -132,12 +133,12 @@ bool Film::estRestreintDansPays(Pays pays) const
 //    }
 //    stream << '\n';
 //}
-ostream& operator<<(ostream& os, const Film& film)
+std::ostream& operator<<(std::ostream& os, const Film& film)
 {
     os << film.nom_ << "\n\tDate de sortie: " << film.anneeDeSortie_
        << "\n\tGenre: " << getGenreString(film.genre_)
        << "\n\tAuteur: " << film.auteur_->getNom() << "\n\tPays: " << getPaysString(film.pays_)
-       << (0 == 0 ? "\n\tAucun pays restreint." : "\n\tPays restreints:");
+       << (film.paysRestreints_.size() == 0 ? "\n\tAucun pays restreint." : "\n\tPays restreints:");
     for (std::size_t i = 0; i < film.paysRestreints_.size(); i++)
     {
         os << "\n\t\t" << getPaysString(film.paysRestreints_[i]);

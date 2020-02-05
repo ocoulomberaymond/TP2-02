@@ -54,6 +54,7 @@ unsigned int Auteur::getAnneeDeNaissance() const
 //! \return Le nombre de films de l'auteur
 unsigned int Auteur::getNbFilms() const
 {
+
     return nbFilms_;
 }
 

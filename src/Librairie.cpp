@@ -34,11 +34,9 @@ Librairie::~Librairie()
 }
 Librairie& Librairie::operator=(const Librairie& librairie)
 {
-
     films_.resize(librairie.films_.size());
     for (size_t i = 0; i < librairie.films_.size(); i++)
     {
-        
         films_[i] = std::make_unique<Film>(*librairie.films_[i]);
     }
     return *this;
@@ -168,9 +166,13 @@ bool Librairie::chargerRestrictionsDepuisFichiers(const std::string& nomFichier)
 //! \param librairie La librairie ou se trouve les films
 std::ostream& operator<<(std::ostream& stream, const Librairie& librairie)
 {
-    for (std::size_t i = 0; i < librairie.getNbFilms(); i++)
+    for (unsigned i = 0; i < librairie.films_.size(); i++)
     {
-        operator<<(stream, librairie.films_[i]);
+         
+        
+        stream << *librairie.films_[i] << "\n";
+        
+        
     }
     return stream;
 }

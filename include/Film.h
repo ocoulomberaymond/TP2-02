@@ -29,7 +29,7 @@ public:
     void ajouterPaysRestreint(Pays pays);
     void supprimerPaysRestreints();
     bool estRestreintDansPays(Pays pays) const;
-    friend std::ostream & operator << (std::ostream& os, const Film& film);
+    friend std::ostream& operator<<(std::ostream& os, const Film& film);
     //void afficher(std::ostream& stream) const;
 
     Genre getGenre() const;
