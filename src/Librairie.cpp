@@ -14,16 +14,17 @@ namespace
 
 //! Constructeur de la classe Librairie
 Librairie::Librairie()
-    : films_()
+// : films_()
 // , capaciteFilms_(CAPACITE_FILMS_INITIALE)
 {
 }
 //! Constructeur de copie la classe Librairie
 Librairie::Librairie(const Librairie& copie)
+
 {
-    for (int i = 0; i < copie.films_.size(); i++)
+    for (size_t i = 0; i < copie.films_.size(); i++)
     {
-        operator+=(copie.films_[i].get());       // .get()
+        operator+=(new Film(*copie.films_[i].get()));
     }
 }
 //! Destructeur de la classe Librairie
@@ -33,20 +34,33 @@ Librairie::~Librairie()
 }
 Librairie& Librairie::operator=(const Librairie& librairie)
 {
-    films_ = librairie.films_;
+
+    films_.resize(librairie.films_.size());
+    for (size_t i = 0; i < librairie.films_.size(); i++)
+    {
+        
+        films_[i] = std::make_unique<Film>(*librairie.films_[i]);
+    }
+    return *this;
 }
 
 const std::vector<std::unique_ptr<Film>>& Librairie::getFilms() const
 {
     return films_;
+    // films_;
 }
 
 //! Méthode qui ajoute un film à la liste des films
 //! \param film Le film alloué dynamiquement à ajouter à la liste. La classe devient propriétaire du
 //!             film.
-Librairie& Librairie::operator+=(Film *film)
+Librairie& Librairie::operator+=(const Film* film)
 {
-    films_.push_back(std::make_unique<Film>(film));
+    if (film != nullptr)
+    {
+        films_.push_back(std::make_unique<Film>(*film));
+    }
+    delete film;
+
     return *this;
 }
 
@@ -55,8 +69,12 @@ Librairie& Librairie::operator+=(Film *film)
 Librairie& Librairie::operator-=(const std::string& nom)
 {
     int index = trouverIndexFilm(nom);
-    films_[index] = std::make_unique<Film>(films_[films_.size() - 1]);
-    films_.pop_back();
+    if (index != FILM_INEXSISTANT)
+    {
+        films_[index] = std::move(films_[films_.size() - 1]);
+        films_.pop_back();
+    }
+
     return *this;
 }
 //! Méthode qui retire un film de la liste
@@ -80,11 +98,13 @@ Librairie& Librairie::operator-=(const std::string& nom)
 Film* Librairie::chercherFilm(const std::string& nomFilm)
 {
     int indexFilm = trouverIndexFilm(nomFilm);
+
     if (indexFilm == FILM_INEXSISTANT)
     {
         return nullptr;
     }
-    return std::make_unique<Film>(films_[indexFilm]).release();
+
+    return films_[indexFilm].get();
 }
 
 //! Méthode qui charge les films à partir d'un fichier.
@@ -152,6 +172,7 @@ std::ostream& operator<<(std::ostream& stream, const Librairie& librairie)
     {
         operator<<(stream, librairie.films_[i]);
     }
+    return stream;
 }
 
 //! Méthode qui retourne le nombre de films
@@ -165,7 +186,6 @@ std::size_t Librairie::getNbFilms() const
 void Librairie::supprimerFilms()
 {
     films_.clear();
-    
 }
 
 //! Méthode qui ajoute les restrictions d'un film avec un string
@@ -241,7 +261,7 @@ bool Librairie::lireLigneFilm(const std::string& ligne, GestionnaireAuteurs& ges
 //! \return        L'index du film. Retourne -1 si le film n'existe pas
 int Librairie::trouverIndexFilm(const std::string& nomFilm) const
 {
-    for (std::size_t i = 0; i < films_.size(); i++)
+    for (size_t i = 0; i < films_.size(); i++)
     {
         if (films_[i]->getNom() == nomFilm)
         {

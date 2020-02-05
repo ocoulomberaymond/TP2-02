@@ -12,7 +12,7 @@ class Librairie
 public:
     Librairie();
     Librairie(const Librairie& copie);
-    Librairie& operator=(const Librairie&);
+    Librairie& operator=(const Librairie &librairie);
     ~Librairie();
 
    // void ajouterFilm(Film* film);
@@ -27,7 +27,7 @@ public:
     std::size_t getNbFilms() const;
 
     friend std::ostream& operator<<(std::ostream& stream,const Librairie& librairie);
-    Librairie& operator+=(Film* film);
+    Librairie& operator+=(const Film *film);
     Librairie& operator-=(const std::string& nomFilm);
 
 private:
