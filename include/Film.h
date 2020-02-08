@@ -35,7 +35,7 @@ public:
     Genre getGenre() const;
     bool estRestreintParAge() const;
     const std::string& getNom() const;
-    Auteur* getAuteur();
+    Auteur* getAuteur() const;
     const int getNbPays() const;
     
 
@@ -48,10 +48,7 @@ private:
     bool estRestreintParAge_;
     Auteur* auteur_;
     std::vector<Pays> paysRestreints_;
-    /*std::unique_ptr<Pays[]> paysRestreints_;*/
-    //std::size_t nbPaysRestreints_;
-    //std::size_t capacitePaysRestreints_;
-    
+  
 };
 
 #endif // FILM_H

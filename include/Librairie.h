@@ -15,8 +15,6 @@ public:
     Librairie& operator=(const Librairie &librairie);
     ~Librairie();
 
-   // void ajouterFilm(Film* film);
-   // void retirerFilm(const std::string& nomFilm);
     Film* chercherFilm(const std::string& nomFilm);
     bool chargerFilmsDepuisFichier(const std::string& nomFichier,
                                    GestionnaireAuteurs& gestionnaireAuteurs);
@@ -38,8 +36,7 @@ private:
 
     // Movies array
     std::vector<std::unique_ptr<Film>> films_;
-    //std::size_t nbFilms_;
-    // std::size_t capaciteFilms_;                     à enlever
+               
 };
 
 #endif // LIBRAIRIE_H

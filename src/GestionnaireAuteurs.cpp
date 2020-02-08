@@ -11,8 +11,6 @@ GestionnaireAuteurs::GestionnaireAuteurs()
 {
 }
 
-
-
 //! Méhode qui cherche un auteur par son nom complet
 //! \param nomAuteur Le nom de l'auteur à trouver
 //! \return          Un pointeur vers l'auteur. Le pointeur est nullptr si l'auteur n'existe pas.
@@ -71,10 +69,7 @@ std::ostream& operator<<(std::ostream& os, const GestionnaireAuteurs& gestionnai
         os << gestionnaire.auteurs_[i] << "\n";
     }
     return os;
-
 }
-
-
 
 bool GestionnaireAuteurs::operator+=(const Auteur& auteur)
 {
@@ -94,7 +89,6 @@ std::size_t GestionnaireAuteurs::getNbAuteurs() const
 {
     return auteurs_.size();
 }
-
 //! Méthode qui ajoute un auteur avec un string
 //! \param ligne Le string qui comporte tous les attributs de l'auteur
 bool GestionnaireAuteurs::lireLigneAuteur(const std::string& ligne)

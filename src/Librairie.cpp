@@ -14,8 +14,6 @@ namespace
 
 //! Constructeur de la classe Librairie
 Librairie::Librairie()
-// : films_()
-// , capaciteFilms_(CAPACITE_FILMS_INITIALE)
 {
 }
 //! Constructeur de copie la classe Librairie
@@ -75,20 +73,7 @@ Librairie& Librairie::operator-=(const std::string& nom)
 
     return *this;
 }
-//! Méthode qui retire un film de la liste
-//! \param nomFilm Le nom du film à retirer
-// void Librairie::retirerFilm(const std::string& nomFilm)
-//{
-//    int indexFilm = trouverIndexFilm(nomFilm);
-//    if (indexFilm == FILM_INEXSISTANT)
-//    {
-//        return;
-//    }
-//
-//    delete films_[indexFilm];
-//    films_[indexFilm] = films_[nbFilms_ - 1];
-//    nbFilms_--;
-//}
+
 
 //! Méthode qui retourne un film comportant le même nom que celui envoyé en paramètre
 //! \param nomFilm Le nom du film à chercher
@@ -168,11 +153,7 @@ std::ostream& operator<<(std::ostream& stream, const Librairie& librairie)
 {
     for (unsigned i = 0; i < librairie.films_.size(); i++)
     {
-         
-        
         stream << *librairie.films_[i] << "\n";
-        
-        
     }
     return stream;
 }
