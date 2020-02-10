@@ -12,19 +12,17 @@ namespace
     constexpr int FILM_INEXSISTANT = -1;
 } // namespace
 
-//! Constructeur de la classe Librairie
+//! Constructeur par defaut de la classe Librairie
 Librairie::Librairie()
-// : films_()
-// , capaciteFilms_(CAPACITE_FILMS_INITIALE)
 {
 }
 //! Constructeur de copie la classe Librairie
+//! \param Librairie La librairie a copier
 Librairie::Librairie(const Librairie& copie)
-
 {
     for (size_t i = 0; i < copie.films_.size(); i++)
     {
-        operator+=(new Film(*copie.films_[i].get()));
+        operator+=(new Film(*copie.films_[i].get()));        
     }
 }
 //! Destructeur de la classe Librairie
@@ -32,6 +30,8 @@ Librairie::~Librairie()
 {
     supprimerFilms();
 }
+//! surcharge de l'opérateur == qui permet de copier une librairie
+//! \param Librairie La librairie a copier
 Librairie& Librairie::operator=(const Librairie& librairie)
 {
     films_.resize(librairie.films_.size());
@@ -41,11 +41,11 @@ Librairie& Librairie::operator=(const Librairie& librairie)
     }
     return *this;
 }
-
+//! Methoded qui retourne un pointeur vers la librairie de films
 const std::vector<std::unique_ptr<Film>>& Librairie::getFilms() const
 {
     return films_;
-    // films_;
+    
 }
 
 //! Méthode qui ajoute un film à la liste des films
@@ -75,21 +75,6 @@ Librairie& Librairie::operator-=(const std::string& nom)
 
     return *this;
 }
-//! Méthode qui retire un film de la liste
-//! \param nomFilm Le nom du film à retirer
-// void Librairie::retirerFilm(const std::string& nomFilm)
-//{
-//    int indexFilm = trouverIndexFilm(nomFilm);
-//    if (indexFilm == FILM_INEXSISTANT)
-//    {
-//        return;
-//    }
-//
-//    delete films_[indexFilm];
-//    films_[indexFilm] = films_[nbFilms_ - 1];
-//    nbFilms_--;
-//}
-
 //! Méthode qui retourne un film comportant le même nom que celui envoyé en paramètre
 //! \param nomFilm Le nom du film à chercher
 //! \return        Un pointeur vers le film. Nullptr si le film n'existe pas

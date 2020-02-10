@@ -52,18 +52,9 @@ bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
               << " n'existe pas. Assurez vous de le mettre au bon endroit.\n";
     return false;
 }
-
-////! Méthode qui affiche la liste des auteurs
-////! \param stream Le stream dans lequel afficher
-//void GestionnaireAuteurs::afficher(std::ostream& stream) const
-//{
-//    for (std::size_t i = 0; i < nbAuteurs_; i++)
-//    {
-//        auteurs_[i].afficher(stream);
-//        stream << '\n';
-//    }
-//}
-
+//! surcharge de l'opérateur << qui permet d'afficher un gestionnaire d'auteurs
+//! \param stream Le stream dans lequel afficher
+//! \param GestionnaireAuteurs Le gestionnaire d'auteur qu'on veut afficher
 std::ostream& operator<<(std::ostream& os, const GestionnaireAuteurs& gestionnaire)
 {
     for (unsigned i = 0; i < gestionnaire.auteurs_.size(); i++)
@@ -73,9 +64,8 @@ std::ostream& operator<<(std::ostream& os, const GestionnaireAuteurs& gestionnai
     return os;
 
 }
-
-
-
+//! surcharge de l'opérateur += qui permet d'ajouter un auteur au gestionnaire
+//! \paramm Auteur L'auteur qu'on veut ajouter au gestionnaire
 bool GestionnaireAuteurs::operator+=(const Auteur& auteur)
 {
     if (auteurs_.size() < NB_AUTEURS_MAX)

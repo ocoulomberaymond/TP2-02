@@ -63,7 +63,8 @@ Film::Film(const std::string& nom, unsigned int anneeDeSortie, Genre genre, Pays
 {
     auteur_->setNbFilms(auteur_->getNbFilms()+1);
 }
-
+//! Destructeur de la classe Film
+//! Enlève un film par appel de la fonction
 Film::~Film()
 {
     auteur_->setNbFilms(auteur_->getNbFilms() - 1);
@@ -73,26 +74,6 @@ Film::~Film()
 //! \param pays Pays à ajouter à la liste
 void Film::ajouterPaysRestreint(Pays pays)
 {
-    //static constexpr unsigned int AUGMENTATION_CAPACITE_PAYS = 2;
-
-    //// Verifier si assez de mémoire est allouée
-    //if (nbPaysRestreints_ >= capacitePaysRestreints_)
-    //{
-    //    // Creer nouveau tableau
-    //    std::unique_ptr<Pays[]> newArray =
-    //        std::make_unique<Pays[]>(capacitePaysRestreints_ * AUGMENTATION_CAPACITE_PAYS);
-
-    //    // Copier chaque élément vers le nouveau tableau
-    //    for (std::size_t i = 0; i < nbPaysRestreints_; i++)
-    //    {
-    //        newArray[i] = paysRestreints_[i];
-    //    }
-
-    //    paysRestreints_ = std::move(newArray); // Pointer vers la nouvelle adresse mémoire
-    //    capacitePaysRestreints_ *= AUGMENTATION_CAPACITE_PAYS; // Mettre à jour la capacité
-    //}
-
-    //paysRestreints_[nbPaysRestreints_++] = pays;
     paysRestreints_.push_back(pays);
 }
 
@@ -117,22 +98,9 @@ bool Film::estRestreintDansPays(Pays pays) const
     return false;
 }
 
-//! Méthode qui affiche le film
+//! surcharge de l'opérateur << qui permet d'afficher un film
 //! \param stream Le stream dans lequel afficher
-//void Film::afficher(std::ostream& stream) const
-//{
-//    // Ne modifiez pas cette fonction
-//    stream << nom_ << "\n\tDate de sortie: " << anneeDeSortie_
-//           << "\n\tGenre: " << getGenreString(genre_) << "\n\tAuteur: " << auteur_->getNom()
-//           << "\n\tPays: " << getPaysString(pays_)
-//           << (nbPaysRestreints_ == 0 ? "\n\tAucun pays restreint." : "\n\tPays restreints:");
-//
-//    for (std::size_t i = 0; i < nbPaysRestreints_; i++)
-//    {
-//        stream << "\n\t\t" << getPaysString(paysRestreints_[i]);
-//    }
-//    stream << '\n';
-//}
+//! \param Film Le film qu'on veut afficher
 std::ostream& operator<<(std::ostream& os, const Film& film)
 {
     os << film.nom_ << "\n\tDate de sortie: " << film.anneeDeSortie_
@@ -174,7 +142,7 @@ Auteur* Film::getAuteur()
 {
     return auteur_;
 }
-
+// Méthode qui retourne le nombre de pays restreints d'un film
 const int Film::getNbPays() const
 {
     return paysRestreints_.size();
